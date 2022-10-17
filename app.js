@@ -7,7 +7,7 @@ const phnumber_El = document.querySelector('#phnumber');
 const password1_El = document.querySelector('#password1');
 const password2_El = document.querySelector('#password2');
 const form = document.querySelector('#registration');
-const button = document.querySelector('#submit');
+document.querySelector('#submit').disabled = true;
 
 // utility function for checking empty input field
 const isRequired = value => value === '' ? false : true;
@@ -34,161 +34,159 @@ const isPasswordSecure = (password) => {
 };
 
 // function for showing error message
-const showError = (input, message) => {
-    const formField = input.parentElement;
+const showError = (input, message, show) => {
+    if (show) {
+        const formField = input.parentElement;
 
-    formField.classList.remove('success');
-    formField.classList.add('error');
+        formField.classList.remove('success');
+        formField.classList.add('error');
 
-    const error = formField.querySelector('small');
-    error.textContent = message;
+        const error = formField.querySelector('small');
+        error.textContent = message;
+    }
 };
 
 // function for showing error message
-const showSuccess = (input) => {
-    const formField = input.parentElement;
+const showSuccess = (input, show) => {
+    if (show) {
+        const formField = input.parentElement;
 
-    formField.classList.remove('error');
-    formField.classList.add('success');
+        formField.classList.remove('error');
+        formField.classList.add('success');
 
-    const error = formField.querySelector('small');
-    error.textContent = 'Valid';
+        const error = formField.querySelector('small');
+        error.textContent = 'Valid';
+    }
 }
 
 
 // function for validating first name of user
-const checkFirstname = () => {
+const checkFirstname = (show) => {
     let valid = false;
     const min = 3, max = 25;
     const name = firstname_El.value.trim();
 
     if (!isRequired(name)) {
-        showError(firstname_El, 'Name cannot be blank.');
+        showError(firstname_El, 'Name cannot be blank.', show);
     } else if (!isBetween(name.length, min, max)) {
-        showError(firstname_El, `Name must be between ${min} and ${max} characters.`)
+        showError(firstname_El, `Name must be between ${min} and ${max} characters.`, show)
     } else {
-        showSuccess(firstname_El);
+        showSuccess(firstname_El, show);
         valid = true;
     }
     return valid;
 }
 
 // function for validating last name of user
-const checkLastname = () => {
+const checkLastname = (show) => {
     let valid = false;
     const min = 3, max = 25;
     const name = lastname_El.value.trim();
 
     if (!isRequired(name)) {
-        showError(lastname_El, 'Name cannot be blank.');
+        showError(lastname_El, 'Name cannot be blank.', show);
     } else if (!isBetween(name.length, min, max)) {
-        showError(lastname_El, `Name must be between ${min} and ${max} characters.`)
+        showError(lastname_El, `Name must be between ${min} and ${max} characters.`, show)
     } else {
-        showSuccess(lastname_El);
+        showSuccess(lastname_El, show);
         valid = true;
     }
     return valid;
 }
 
 // function for validating email of user
-const checkEmail = () => {
+const checkEmail = (show) => {
     let valid = false;
     const email = email_El.value.trim();
 
     if (!isRequired(email)) {
-        showError(email_El, 'Email cannot be blank.');
+        showError(email_El, 'Email cannot be blank.', show);
     } else if (!isEmailValid(email)) {
-        showError(email_El, 'Email is not valid.')
+        showError(email_El, 'Email is not valid.', show)
     } else {
-        showSuccess(email_El);
+        showSuccess(email_El, show);
         valid = true;
     }
     return valid;
 }
 
 // function for validating age of user
-const checkAge = () => {
+const checkAge = (show) => {
     let valid = false;
     const min = 18, max = 60;
     const age = age_El.value.trim();
 
     if (!isRequired(age)) {
-        showError(age_El, 'Age cannot be blank.');
+        showError(age_El, 'Age cannot be blank.', show);
     } else if (!inRange(age, min, max)) {
-        showError(age_El, `Age must be between ${min} and ${max} years.`)
+        showError(age_El, `Age must be between ${min} and ${max} years.`, show)
     } else {
-        showSuccess(age_El);
+        showSuccess(age_El, show);
         valid = true;
     }
     return valid;
 }
 
 // function for validating phone number of user
-const checkPhnumber = () => {
+const checkPhnumber = (show) => {
     let valid = false;
     const range = 11;
     const phnumber = phnumber_El.value.trim();
 
     if (!isRequired(phnumber)) {
-        showError(phnumber_El, 'Contact number cannot be blank.');
+        showError(phnumber_El, 'Contact number cannot be blank.', show);
     } else if (!isValid(phnumber.length, range)) {
-        showError(phnumber_El, `Contact number must be of ${range} digits`);
+        showError(phnumber_El, `Contact number must be of ${range} digits`, show);
     } else {
-        showSuccess(phnumber_El);
+        showSuccess(phnumber_El, show);
         valid = true;
     }
     return valid;
 }
 
 // function for validating password of user
-const checkPassword = () => {
+const checkPassword = (show) => {
     let valid = false;
     const password = password1_El.value.trim();
 
     if (!isRequired(password)) {
-        showError(password1_El, 'Password cannot be blank.');
+        showError(password1_El, 'Password cannot be blank.', show);
     } else if (!isPasswordSecure(password)) {
-        showError(password1_El, 'Password must have at least 1 lowercase character, 1 uppercase characters, and 1 number.');
+        showError(password1_El, 'Password must have at least 1 lowercase character, 1 uppercase characters, and 1 number.', show);
     } else {
-        showSuccess(password1_El);
+        showSuccess(password1_El, show);
         valid = true;
     }
     return valid;
 };
 
 // function for validating re-entered password of user
-const checkConfirmPassword = () => {
+const checkConfirmPassword = (show) => {
     let valid = false;
     const confirmPassword = password2_El.value.trim();
     const password = password1_El.value.trim();
 
     if (!isRequired(confirmPassword)) {
-        showError(password2_El, 'Please enter the password again');
+        showError(password2_El, 'Please enter the password again', show);
     } else if (password !== confirmPassword) {
-        showError(password2_El, 'Passwords do not match');
+        showError(password2_El, 'Passwords do not match', show);
     } else {
-        showSuccess(password2_El);
+        showSuccess(password2_El, show);
         valid = true;
     }
     return valid;
 };
 
+const checkConditions = () => {
 
-// form event listener to call above validation functions
-form.addEventListener('submit', function (e) {
-    // prevent the form from submitting
-    e.preventDefault();
+     let isFirstNameValid = checkFirstname(false),
+        isLastNameValid = checkLastname(false),
+        isEmailValid = checkEmail(false),
+        isAgeValid = checkAge(false),
+        isPhNumberValid = checkPhnumber(false),
+        isPasswordValid = checkPassword(false),
+         isConfirmPasswordValid = checkConfirmPassword(false);
 
-    // validate fields
-    let isFirstNameValid = checkFirstname(),
-        isLastNameValid = checkLastname(),
-        isEmailValid = checkEmail(),
-        isAgeValid = checkAge(),
-        isPhNumberValid = checkPhnumber(),
-        isPasswordValid = checkPassword(),
-        isConfirmPasswordValid = checkConfirmPassword();
-
-    
     let isFormValid = isFirstNameValid &&
         isLastNameValid &&
         isEmailValid &&
@@ -196,11 +194,19 @@ form.addEventListener('submit', function (e) {
         isPhNumberValid &&
         isPasswordValid &&
         isConfirmPasswordValid
+    
+    return isFormValid;
+};
 
-    // submit to the server if the form is valid
-    if (isFormValid) {
+form.addEventListener("change", () => {
+    document.getElementById('submit').disabled = !checkConditions();
+});
 
-    }
+// form event listener to call above validation functions
+form.addEventListener('submit', function (e) {
+    // prevent the form from submitting
+    e.preventDefault();
+   
 });
 
 const debounce = (fn, delay = 500) => {
@@ -220,25 +226,26 @@ const debounce = (fn, delay = 500) => {
 form.addEventListener('input', debounce(function (e) {
     switch (e.target.id) {
         case 'fname':
-            checkFirstname();
+            checkFirstname(true);
+            che
             break;
         case 'lname':
-            checkLastname();
+            checkLastname(true);
             break;
         case 'email':
-            checkEmail();
+            checkEmail(true);
             break;
         case 'age':
-            checkAge();
+            checkAge(true);
             break;
         case 'phnumber':
-            checkPhnumber();
+            checkPhnumber(true);
             break;
         case 'password1':
-            checkPassword();
+            checkPassword(true);
             break;
         case 'password2':
-            checkConfirmPassword();
+            checkConfirmPassword(true);
             break;
     }
 }));
