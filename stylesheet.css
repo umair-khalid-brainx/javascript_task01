@@ -12,8 +12,7 @@ h1 {
     margin: 1px 5px 15px 10px;
 }
 
-.form-field
-{
+.form-field{
     margin: 10px;
 }
 label {
@@ -59,4 +58,13 @@ button {
 }
 .form-field.success small {
     color: green;
+}
+
+@media only screen and (max-width: 576px) {
+    .container {
+        max-width: 100%;
+    }
+    .form-field {
+        margin: 0px;
+    }
 }
